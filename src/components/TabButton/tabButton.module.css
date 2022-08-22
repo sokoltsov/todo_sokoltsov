@@ -1,3 +1,17 @@
+.button {
+  padding: 16px;
+  outline: none;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+  border: none;
+}
+
 .activeTab {
-  background-color: red;
+  background-color: rgb(183, 196, 233);
+}
+
+.button:hover {
+  background-color: rgba(183, 196, 233, 0.404);
 }

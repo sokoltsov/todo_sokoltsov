@@ -1,3 +1,18 @@
 .checkedTodo {
   text-decoration: line-through;
 }
+
+.field {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox {
+  margin: 0;
+  width: 18px;
+  height: 18px;
+}
+
+.label {
+  margin-left: 10px;
+}

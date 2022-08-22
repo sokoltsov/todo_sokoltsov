@@ -12,16 +12,17 @@ interface IProps {
 
 const CheckboxField = ({ id, title, checked, onCheck, onClick }: IProps) => {
   return (
-    <div>
+    <div className={styles.field}>
       <input
         type="checkbox"
         name={`todo${id}`}
         checked={checked}
         onChange={() => onCheck(id)}
+        className={styles.checkbox}
       />
       <label
         htmlFor={`todo${id}`}
-        className={classNames({ [ styles.checkedTodo ]: checked })}
+        className={classNames({ [ styles.checkedTodo ]: checked }, styles.label)}
         onClick={() => onClick ? onClick(id) : null}
       >{ title }</label>
     </div>

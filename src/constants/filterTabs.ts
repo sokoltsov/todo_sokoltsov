@@ -8,6 +8,6 @@ export const tabs: ITab[] = [
 
 export const tabNames: {[key in Tabs]: string} = {
   [Tabs.All]: "Все",
-  [Tabs.Closed]: "Закрытые",
-  [Tabs.Opened]: "Открытые",
+  [Tabs.Closed]: "Закрыта",
+  [Tabs.Opened]: "Открыта",
 };

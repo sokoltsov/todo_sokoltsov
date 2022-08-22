@@ -18,7 +18,7 @@ const TabButton = ({ tab: {id, title}, active, onClick }: IProps) => {
 
   return (
     <button
-    className={classNames({ [styles.activeTab]: active })}
+      className={classNames({ [styles.activeTab]: active }, styles.button)}
       onClick={handleClick}
     >
       {title}

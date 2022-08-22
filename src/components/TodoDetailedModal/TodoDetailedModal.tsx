@@ -19,13 +19,15 @@ const TodoDetailedModal =({ task, onClose, onCheck }: IProps)=> {
       onClose={onClose}
     >
       {task.title}
-      <CheckboxField
-        id={task.id}
-        title=''
-        checked={task.completed}
-        onCheck={onCheck}
-      />
-      <span>{ task.completed ? tabNames[Tabs.Closed] : tabNames[Tabs.Opened] }</span>
+      <div className={styles.footer}>
+        <CheckboxField
+          id={task.id}
+          title=''
+          checked={task.completed}
+          onCheck={onCheck}
+        />
+        <span>{ task.completed ? tabNames[Tabs.Closed] : tabNames[Tabs.Opened] }</span>
+      </div>
     </Modal>
   )
 }

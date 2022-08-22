@@ -2,9 +2,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import TabButton from '../TabButton/TabButton';
 import { ITodo } from '../../models/todo';
 import { ITab, Tabs } from '../../models/tab';
-import { filterTodoListByStatus } from '../../utils/filterUtils';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { updateFilteredTodoList } from '../../app/actionCreators';
+import styles from './filterTabs.module.css';
 
 interface IProps {
   todoList: ITodo[];
@@ -27,7 +27,7 @@ const FilterTabs = ({ todoList, tabList, children }: IProps) => {
 
   return (
     <>
-      <header>
+      <header className={styles.header}>
         {
           tabList.map(tab => (
             <TabButton

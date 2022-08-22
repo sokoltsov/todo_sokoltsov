@@ -5,6 +5,7 @@ import { tabs } from '../../constants/filterTabs';
 import TodoDetailedModal from '../TodoDetailedModal/TodoDetailedModal';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { checkTodo, fetchTodo } from '../../app/actionCreators';
+import styles from './todoList.module.css';
 
 const TodoList = () => {
   const todoList = useAppSelector(state => state.todoReducer.todoList)
@@ -35,16 +36,17 @@ const TodoList = () => {
 
   return (
     <>
+      <h1 className={styles.title}>TODO</h1>
       <FilterTabs
         todoList={todoList}
         tabList={tabs}
       >
         {(filteredTodoList) => (
-          <ul>
+          <ul className={styles.list}>
             {
               filteredTodoList.map(({id, title, completed}) => {
                 return (
-                  <li key={id}>
+                  <li key={id} className={styles.listItem}>
                     <CheckboxField
                       id={id}
                       title={title}
