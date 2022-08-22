@@ -1,40 +1,37 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import CheckboxField from '../CheckboxField/CheckboxField';
-import { ITodo } from '../../models/todo';
 import FilterTabs from '../FilterTabs/FilterTabs';
 import { tabs } from '../../constants/filterTabs';
-
-const todoListInit: ITodo[] = [
-  {
-    id: 1,
-    title: 'working',
-    checked: false,
-  },
-  {
-    id: 2,
-    title: 'sleeping',
-    checked: false,
-  },
-  {
-    id: 3,
-    title: 'buying',
-    checked: false,
-  },
-  {
-    id: 4,
-    title: 'cooking',
-    checked: false,
-  },
-]
+import TodoDetailedModal from '../TodoDetailedModal/TodoDetailedModal';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { checkTodo, fetchTodo } from '../../app/actionCreators';
 
 const TodoList = () => {
-  const [todoList, setTodoList] = useState<ITodo[]>(todoListInit);
+  const todoList = useAppSelector(state => state.todoReducer.todoList)
+  const [selectedTodoId, setSelectedTodoId] = useState<number|undefined>();
+  const [open, setOpen] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchTodo());
+  }, [dispatch])
 
   const handleCheck = useCallback((id: number) => {
-    setTodoList(todoList.map(todo => (
-      todo.id === id ? {...todo, checked: !todo.checked} : todo
-    )))
-  }, [todoList])
+    dispatch(checkTodo(id));
+  }, [dispatch])
+
+  const handleClick = useCallback((id: number) => {
+    setSelectedTodoId(id);
+    setOpen(true);
+  }, [])
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const selectedTodo = useMemo(() => {
+    return todoList.find(task => task.id === selectedTodoId);
+  }, [todoList, selectedTodoId])
 
   return (
     <>
@@ -45,14 +42,15 @@ const TodoList = () => {
         {(filteredTodoList) => (
           <ul>
             {
-              filteredTodoList.map(({id, title, checked}) => {
+              filteredTodoList.map(({id, title, completed}) => {
                 return (
                   <li key={id}>
                     <CheckboxField
                       id={id}
                       title={title}
-                      checked={checked}
+                      checked={completed}
                       onCheck={handleCheck}
+                      onClick={handleClick}
                     />
                   </li>
                 );
@@ -61,6 +59,11 @@ const TodoList = () => {
           </ul>
         )}
       </FilterTabs>
+      {open && selectedTodo && <TodoDetailedModal 
+        task={selectedTodo}
+        onClose={handleClose}
+        onCheck={handleCheck}
+      />}
     </>
   );
 }

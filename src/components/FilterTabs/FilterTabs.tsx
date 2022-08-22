@@ -1,8 +1,10 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import TabButton from '../TabButton/TabButton';
 import { ITodo } from '../../models/todo';
 import { ITab, Tabs } from '../../models/tab';
 import { filterTodoListByStatus } from '../../utils/filterUtils';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { updateFilteredTodoList } from '../../app/actionCreators';
 
 interface IProps {
   todoList: ITodo[];
@@ -15,17 +17,21 @@ const FilterTabs = ({ todoList, tabList, children }: IProps) => {
   const handleClick = useCallback((id: Tabs) => {
     setFilterStatus(id);
   }, [])
+  const dispatch = useAppDispatch();
 
-  const filteredTodoList = useMemo(() => {
-    return filterTodoListByStatus(todoList, filterStatus)
-  }, [todoList, filterStatus])
+  useEffect(() => {
+    dispatch(updateFilteredTodoList(filterStatus));
+  }, [todoList, filterStatus, dispatch]);
+
+  const filteredTodoList = useAppSelector(state => state.todoReducer.filteredTodoList)
 
   return (
     <>
       <header>
         {
           tabList.map(tab => (
-            <TabButton 
+            <TabButton
+              key={tab.id}
               onClick={handleClick}
               tab={tab}
               active={tab.id === filterStatus}
